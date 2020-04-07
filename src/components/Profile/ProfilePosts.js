@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PostsGrid from "./PostsGrid";
+import PostsList from "./PostsList";
+import TaggedPosts from "./TaggedPosts";
 
 const tabComponentMapper = {
   grid: {
@@ -10,12 +12,12 @@ const tabComponentMapper = {
   list: {
     id: "list",
     icon: "fa fa-list",
-    component: PostsGrid,
+    component: PostsList,
   },
   tagged: {
     id: "tagged",
     icon: "fa fa-tagged",
-    component: PostsGrid,
+    component: TaggedPosts,
   },
 };
 
@@ -26,9 +28,12 @@ function TabsetHeader({ currentTab, changeTab }) {
         <div
           key={tab.id}
           className={`tabset ${currentTab === tab.id ? "tabset-selected" : ""}`}
+          onClick={() => changeTab(tab.id)}
           title={tab.id}
+          tabIndex="1"
         >
-          <i className={tab.icon} />
+          {tab.id}
+          {/* <i className={tab.icon} /> */}
         </div>
       ))}
     </div>

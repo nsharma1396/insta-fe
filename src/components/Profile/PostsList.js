@@ -1,12 +1,11 @@
 import React from "react";
+import PostItem from "./PostItem";
 
 function PostsList({ profile }) {
   return (
     <div className="posts-list">
       {profile.posts.map((post) => (
-        <div key={post.id} className="post-item">
-          <img src={post.url} alt="post" />
-        </div>
+        <PostItem key={post.id} post={post} />
       ))}
     </div>
   );

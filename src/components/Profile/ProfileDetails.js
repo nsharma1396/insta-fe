@@ -1,12 +1,18 @@
 import React from "react";
 
+function ProfilePicture({ url }) {
+  return (
+    <div className="profile-picture">
+      <img src={`${url}/240`} alt="user profile" />
+    </div>
+  );
+}
+
 function ProfileDetails({ profile }) {
   return (
     <div className="profile-details">
       <div className="overview">
-        <div className="profile-picture">
-          <img src={profile.profilePicture} alt="user profile" />
-        </div>
+        <ProfilePicture url={profile.profilePicture} />
         <div className="follow-user">
           <div className="follow-data">
             <div className="count">
@@ -38,7 +44,9 @@ function ProfileDetails({ profile }) {
         {!!profile.bio && <div className="bio">{profile.bio}</div>}
         {!!profile.website && (
           <div className="website">
-            <a href={profile.website}>{profile.website}</a>
+            <a href={profile.website} target="_blank" rel="noopener noreferrer">
+              {profile.website}
+            </a>
           </div>
         )}
       </div>

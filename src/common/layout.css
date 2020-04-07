@@ -9,10 +9,11 @@ nav {
   align-items: center;
   background-color: #fafafa;
   border-bottom: 1px solid #d8d8d8;
+  z-index: 99;
 }
 
 main {
-  width: 80%;
+  width: 75%;
   margin: 0 auto;
   margin-top: 80px;
 }
