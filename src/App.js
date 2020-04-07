@@ -1,25 +1,25 @@
 import React from "react";
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Profile from "./components/Profile";
+import Post from "./components/Post";
 import "./App.css";
+import "./services/auth";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          Load all the data
+        </Route>
+        <Route path="/profile/:userId">
+          <Profile />
+        </Route>
+        <Route path="/post/:postId">
+          <Post />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

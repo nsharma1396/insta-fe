@@ -1,0 +1,109 @@
+
+$blue: #3695ef;
+
+nav
+  height: 100%
+  .back-icon
+    flex: 1;
+    padding-left: 5px;
+    
+  .username
+    flex: 2;
+    display: flex;
+    justify-content: center;
+
+  .options
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 5px;
+
+.profile-content
+
+  img
+    width: 250px;
+    height: 250px;
+
+  a
+    color: $blue;
+    text-decoration: none;
+
+  .profile-details
+
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+
+    .overview
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      .profile-picture
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img
+          width: 100%;
+          height: 100%;
+
+      .follow-user
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0 1.5rem;
+        
+        .follow-data
+          display: flex;
+          padding: 0 5rem;
+          margin-bottom: 10px;
+          text-align: center;
+
+          .count
+            width: 100%;
+
+            h3
+              margin: 0;
+
+            span
+              color: #8b8989;
+
+        .follow-btn
+          background-color: $blue;
+          color: #fff;
+          height: 30px;
+          border-radius: 5px;
+          outline: none;
+          border: none;
+          
+    .about
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+
+      .verified-user
+        margin-left: 5px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: $blue;
+        border-radius: 50%;
+        text-align: center;
+        color: #fff;
+
+      .profile-type
+        color: #8b8989
+
+      .bio
+        color: #161616
+
+  .call-button
+    border-top: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
