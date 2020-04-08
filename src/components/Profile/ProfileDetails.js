@@ -1,4 +1,6 @@
 import React from "react";
+import { FaCheck } from "react-icons/fa";
+import { nFormatter } from "./nFormatter";
 
 function ProfilePicture({ url }) {
   return (
@@ -16,15 +18,15 @@ function ProfileDetails({ profile }) {
         <div className="follow-user">
           <div className="follow-data">
             <div className="count">
-              <h3>{profile.postCount}</h3>
+              <h3>{nFormatter(profile.postCount, 3)}</h3>
               <span>posts</span>
             </div>
             <div className="count">
-              <h3>{profile.followerCount}</h3>
+              <h3>{nFormatter(profile.followerCount, 3)}</h3>
               <span>followers</span>
             </div>
             <div className="count">
-              <h3>{profile.followingCount}</h3>
+              <h3>{nFormatter(profile.followingCount, 3)}</h3>
               <span>following</span>
             </div>
           </div>
@@ -36,7 +38,7 @@ function ProfileDetails({ profile }) {
           {profile.name}
           {profile.isVerified && (
             <span className="verified-user">
-              <i className="fa fa-tick" />v
+              <FaCheck size="0.5em" color="white" />
             </span>
           )}
         </div>

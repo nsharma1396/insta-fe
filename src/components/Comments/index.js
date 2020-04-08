@@ -1,97 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useRouteMatch, Link } from "react-router-dom";
 import Layout from "../../common/Layout";
-import { formatTimeStamp } from "./formatTimeStamp";
 import "./Comments.sass";
-
-function AddComment({ addComment }) {
-  const inputRef = useRef();
-  const [comment, updateComment] = useState("");
-  const [submitStatus, updateSubmitStatus] = useState("");
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
-  function handleChange(ev) {
-    updateComment(ev.target.value);
-    updateSubmitStatus("");
-  }
-
-  async function handleSubmit(ev) {
-    ev.preventDefault();
-    if (submitStatus !== "loading") {
-      updateSubmitStatus("loading");
-      const isSuccess = await addComment(comment);
-      if (isSuccess) {
-        updateComment("");
-        updateSubmitStatus("success");
-      } else {
-        updateSubmitStatus("error");
-      }
-    }
-  }
-
-  return (
-    <form className="add-comment" onSubmit={handleSubmit}>
-      <div className="icon">Icon</div>
-      <input
-        ref={inputRef}
-        onChange={handleChange}
-        value={comment}
-        placeholder={`Add a comment`}
-      />
-      <div className="add-comment-btn">
-        <button type="submit" className={`submit-${submitStatus}`}>
-          {submitStatus === "loading" ? "Posting" : "Post"}
-        </button>
-      </div>
-    </form>
-  );
-}
-
-function CommentItem({ commentData, toggleLike }) {
-  return (
-    <div className="comment-item">
-      <div className="profile-pic">
-        <img
-          src={`https://picsum.photos/seed/${commentData.username}/64`}
-          alt="comment-user"
-        />
-      </div>
-      <div className="comment-content">
-        <div className="main-content">
-          <b>{commentData.username}</b> {commentData.comment}
-        </div>
-        <div className="meta-content">
-          <span className="created">
-            {formatTimeStamp(commentData.createdAt)}
-          </span>
-          {!!commentData.likesCount && (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a href="#" className="created">
-              {commentData.likesCount || "1"}{" "}
-              {commentData.likesCount === 1 ? "Like" : "Likes"}{" "}
-            </a>
-          )}
-          {
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a href="#" className="reply">
-              Reply
-            </a>
-          }
-        </div>
-      </div>
-      <div
-        onClick={toggleLike}
-        className={`like-comment ${commentData.hasLiked ? "liked" : ""}`}
-      >
-        L
-      </div>
-    </div>
-  );
-}
+import { AddComment } from "./AddComment";
+import { CommentItem } from "./CommentItem";
+import { FaChevronLeft } from "react-icons/fa";
 
 function Comments() {
   const match = useRouteMatch();
@@ -177,7 +91,7 @@ function Comments() {
         <Layout.Navbar>
           <div className="back-btn">
             <Link to={`/post/${match.params.userId}/${match.params.postId}`}>
-              --
+              <FaChevronLeft />
             </Link>
           </div>
           <h4>Comments</h4>
@@ -189,7 +103,10 @@ function Comments() {
                 <img src={`${post.profilePicture}/64`} alt="comment-user" />
               </div>
               <div className="post-content">
-                <b>{post.username}</b> {post.caption}
+                <Link to="/" style={{ color: "#000" }}>
+                  <b>{post.username}</b>
+                </Link>
+                {post.caption}
               </div>
             </div>
             <div className="comments">

@@ -5,6 +5,7 @@ import Layout from "../../common/Layout";
 import ProfileDetails from "./ProfileDetails";
 import ProfilePosts from "./ProfilePosts";
 import "./Profile.sass";
+import { FaInstagram } from "react-icons/fa";
 
 function Post() {
   const match = useRouteMatch();
@@ -40,7 +41,7 @@ function Post() {
       <Layout>
         <Layout.Navbar>
           <div className="back-icon">
-            Icon
+            <FaInstagram size="2em" />
             <i className="fa fa-left-caret" />
           </div>
           <div className="username">

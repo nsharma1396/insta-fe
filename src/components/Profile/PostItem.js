@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaComment, FaHeart } from "react-icons/fa";
 
 function PostItem({ post, userId }) {
   const [isHovered, toggleHover] = useState(false);
@@ -14,11 +15,13 @@ function PostItem({ post, userId }) {
       <img src={`${post.url}/640`} alt="post" />
       {isHovered && (
         <div className="post-item-overlay">
-          <span className="likes">
-            L<span className="count">{post.likesCount}</span>
+          <span className="item likes">
+            <FaHeart />
+            <span className="count">{post.likesCount}</span>
           </span>
-          <span className="comments">
-            C<span className="count">{post.commentsCount}</span>
+          <span className="item comments">
+            <FaComment />
+            <span className="count">{post.commentsCount}</span>
           </span>
         </div>
       )}

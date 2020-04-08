@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Layout from "../../common/Layout";
 import { useRouteMatch, Link } from "react-router-dom";
+import {
+  FaRegHeart,
+  FaRegComment,
+  FaRegBookmark,
+  FaHeart,
+} from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
+import { IoIosOptions } from "react-icons/io";
 
 export function PostRenderer({ postId }) {
   const match = useRouteMatch();
@@ -60,7 +68,9 @@ export function PostRenderer({ postId }) {
               <span>{post.location}</span>
             </div>
           </div>
-          <div className="options">|</div>
+          <div className="options">
+            <IoIosOptions />
+          </div>
         </Layout.Navbar>
         <Layout.Body>
           <div className="post-content">
@@ -70,17 +80,27 @@ export function PostRenderer({ postId }) {
             <div className="post-data">
               <div className="actions">
                 <div className="like-actions">
-                  <span
-                    onClick={toggleLike}
-                    className={postData.data.hasLiked ? "liked" : ""}
-                  >
-                    L
-                  </span>
-                  <span>C</span>
-                  <span>S</span>
+                  {!postData.data.hasLiked ? (
+                    <FaRegHeart
+                      size="1.5em"
+                      onClick={toggleLike}
+                      title="Like"
+                    />
+                  ) : (
+                    <FaHeart
+                      size="1.5em"
+                      onClick={toggleLike}
+                      className="liked"
+                      title="Unlike"
+                    />
+                  )}
+                  <Link to={`${match.url}/comments`}>
+                    <FaRegComment size="1.5em" title="Comment" />
+                  </Link>
+                  <FiSend size="1.5em" title="Send" />
                 </div>
                 <div className="save-action">
-                  <span>S</span>
+                  <FaRegBookmark size="1.5em" title="Save" />
                 </div>
               </div>
               {!!post.likesCount && (
@@ -90,7 +110,9 @@ export function PostRenderer({ postId }) {
                 </div>
               )}
               <div className="caption">
-                <b>{post.username}</b>
+                <Link to="/" style={{ color: "#000" }}>
+                  <b>{post.username}</b>
+                </Link>
                 {post.caption}. Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit.
               </div>
