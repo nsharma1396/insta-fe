@@ -59,17 +59,22 @@ export function PostRenderer({ postId }) {
                   <span>S</span>
                 </div>
               </div>
-              <div className="info">
-                Liked by <b>John Doe</b> and <b>{post.likesCount - 1}</b> others
-              </div>
+              {!!post.likesCount && (
+                <div className="info">
+                  Liked by <b>John Doe</b> and <b>{post.likesCount - 1}</b>{" "}
+                  others
+                </div>
+              )}
               <div className="caption">
                 <b>{post.username}</b>
                 {post.caption}. Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit.
               </div>
-              <Link className="show-comments" to={`${match.url}/comments`}>
-                View all {post.commentsCount} comments
-              </Link>
+              {!!post.commentsCount && (
+                <Link className="show-comments" to={`${match.url}/comments`}>
+                  View all {post.commentsCount} comments
+                </Link>
+              )}
             </div>
           </div>
         </Layout.Body>
