@@ -10,12 +10,12 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact>
-          Load all the data
+          {/* Load all the data
         </Route>
-        <Route path="/profile/:userId">
+        <Route path="/profile/:userId"> */}
           <Profile />
         </Route>
-        <Route path="/post/:postId">
+        <Route path="/post/:userId/:postId">
           <Post />
         </Route>
       </Switch>

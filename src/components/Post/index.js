@@ -1,10 +1,8 @@
 import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Comments from "../Comments";
-
-function PostRenderer({ postId }) {
-  return <div>Post Id: {postId}</div>;
-}
+import { PostRenderer } from "./PostRenderer";
+import "./Posts.sass";
 
 function Post() {
   const match = useRouteMatch();

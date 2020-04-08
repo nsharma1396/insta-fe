@@ -1,0 +1,77 @@
+
+$blue: #3695ef;
+$grey: #d8d8d8;
+$dark-grey: #8b8989;
+
+nav
+  display: flex;
+  justify-content: space-between
+  .post-meta
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+
+    .user-details
+      margin-left: 10px;
+
+      h5
+        margin: 0;
+      span
+        font-size: 14px;
+
+    img
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+
+.post-content
+  display: flex;
+  flex-direction: column;
+
+  a
+    color: $dark-grey;
+    text-decoration: none;
+
+  a:visited
+    color: $blue;
+
+  .post-img
+    height: 80vh;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    img
+      height: 100%;
+      width: 100%;
+
+  .post-data
+    width: 75%;
+    margin: 16px auto;
+    display: flex;
+    flex-direction: column;
+
+    .actions
+      display: flex;
+      
+      justify-content: space-between;
+
+      span
+        padding-right: 10px;
+
+    .info
+      margin-top: 5px;
+      font-size: 14px;
+
+      b
+        color: #000;
+        font-size: 16px;
+
+    .caption
+      margin-top: 5px;
+
+      b
+        margin-right: 5px;
+    
+    .show-comments
+      margin-top: 5px;

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-function PostItem({ post }) {
+function PostItem({ post, userId }) {
   const [isHovered, toggleHover] = useState(false);
 
   return (
-    <div
+    <Link
+      to={`/post/${userId}/${post.id}`}
       className="post-item"
       onMouseOver={() => toggleHover(true)}
       onMouseLeave={() => toggleHover(false)}
@@ -20,7 +22,7 @@ function PostItem({ post }) {
           </span>
         </div>
       )}
-    </div>
+    </Link>
   );
 }
 

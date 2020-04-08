@@ -14,9 +14,9 @@ function Post() {
   });
 
   useEffect(() => {
-    async function getProfileData() {
+    async function getProfileData(userId) {
       try {
-        const profile = await Axios.get("/users/5e8c9fdf9a3a4315cfafb5f3");
+        const profile = await Axios.get(`/users/${userId}`);
         if (profile.status === 200) {
           updateProfileData({ status: "success", data: profile.data.data });
         }
@@ -27,7 +27,7 @@ function Post() {
         });
       }
     }
-    const userId = match.params.userId;
+    const userId = "5e8c9fdf9a3a4315cfafb5f3"; // match.params.userId;
     getProfileData(userId);
     // fetch the data here
   }, [match.params.userId]);
