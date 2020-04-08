@@ -27,6 +27,23 @@ export function PostRenderer({ postId }) {
     getPostData(userId);
     // fetch the data here
   }, [match.params.userId, postId]);
+
+  async function toggleLike() {
+    try {
+      const postResponse = await Axios.post(
+        `/posts/like/${match.params.userId}/${postId}`,
+        {
+          hasLiked: postData.data.hasLiked,
+        }
+      );
+      if (postResponse.data.success) {
+        updatePostData({ ...postData, data: postResponse.data.data });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   if (postData.status === "loading") {
     return <div>Loading...</div>;
   } else if (postData.status === "success") {
@@ -35,7 +52,9 @@ export function PostRenderer({ postId }) {
       <Layout>
         <Layout.Navbar>
           <div className="post-meta">
-            <img src={`${post.profilePicture}/64`} alt="User profile" />
+            <Link to="/">
+              <img src={`${post.profilePicture}/64`} alt="User profile" />
+            </Link>
             <div className="user-details">
               <h5>{post.username}</h5>
               <span>{post.location}</span>
@@ -51,7 +70,12 @@ export function PostRenderer({ postId }) {
             <div className="post-data">
               <div className="actions">
                 <div className="like-actions">
-                  <span>L</span>
+                  <span
+                    onClick={toggleLike}
+                    className={postData.data.hasLiked ? "liked" : ""}
+                  >
+                    L
+                  </span>
                   <span>C</span>
                   <span>S</span>
                 </div>

@@ -1,37 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Axios from "axios";
 import { useRouteMatch, Link } from "react-router-dom";
-import differenceInWeeks from "date-fns/differenceInWeeks";
-import differenceInDays from "date-fns/differenceInDays";
-import differenceInHours from "date-fns/differenceInHours";
-import differenceInMinutes from "date-fns/differenceInMinutes";
-import differenceInSeconds from "date-fns/differenceInSeconds";
 import Layout from "../../common/Layout";
+import { formatTimeStamp } from "./formatTimeStamp";
 import "./Comments.sass";
 
-function formatTimeStamp(timestamp) {
-  const createdTime = new Date(timestamp);
-  let weeks = differenceInWeeks(new Date(), createdTime);
-  if (weeks === 0) {
-    let days = differenceInDays(new Date(), createdTime);
-    if (days === 0) {
-      let hours = differenceInHours(new Date(), createdTime);
-      if (hours === 0) {
-        let minutes = differenceInMinutes(new Date(), createdTime);
-        if (minutes === 0) {
-          let seconds = differenceInSeconds(new Date(), createdTime);
-          return `${seconds}s`;
-        }
-        return `${minutes}m`;
-      }
-      return `${hours}h`;
-    }
-    return `${days}d`;
+function AddComment({ addComment }) {
+  const inputRef = useRef();
+  const [comment, updateComment] = useState("");
+  const [submitStatus, updateSubmitStatus] = useState("");
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  function handleChange(ev) {
+    updateComment(ev.target.value);
+    updateSubmitStatus("");
   }
-  return `${weeks}w`;
+
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    if (submitStatus !== "loading") {
+      updateSubmitStatus("loading");
+      const isSuccess = await addComment(comment);
+      if (isSuccess) {
+        updateComment("");
+        updateSubmitStatus("success");
+      } else {
+        updateSubmitStatus("error");
+      }
+    }
+  }
+
+  return (
+    <form className="add-comment" onSubmit={handleSubmit}>
+      <div className="icon">Icon</div>
+      <input
+        ref={inputRef}
+        onChange={handleChange}
+        value={comment}
+        placeholder={`Add a comment`}
+      />
+      <div className="add-comment-btn">
+        <button type="submit" className={`submit-${submitStatus}`}>
+          {submitStatus === "loading" ? "Posting" : "Post"}
+        </button>
+      </div>
+    </form>
+  );
 }
 
-function CommentItem({ commentData }) {
+function CommentItem({ commentData, toggleLike }) {
   return (
     <div className="comment-item">
       <div className="profile-pic">
@@ -63,7 +83,12 @@ function CommentItem({ commentData }) {
           }
         </div>
       </div>
-      <div className="like-comment">L</div>
+      <div
+        onClick={toggleLike}
+        className={`like-comment ${commentData.hasLiked ? "liked" : ""}`}
+      >
+        L
+      </div>
     </div>
   );
 }
@@ -76,7 +101,7 @@ function Comments() {
     post: undefined,
   });
   useEffect(() => {
-    async function getcommentsData(userId, postId) {
+    async function getCommentsData(userId, postId) {
       try {
         const comments = await Axios.get(`/comments/${userId}/${postId}`);
         if (comments.data.success) {
@@ -99,9 +124,49 @@ function Comments() {
       }
     }
     const { userId, postId } = match.params;
-    getcommentsData(userId, postId);
+    getCommentsData(userId, postId);
     // fetch the data here
   }, [match.params]);
+
+  async function addComment(newComment) {
+    try {
+      const commentData = await Axios.post("/comments/addcomment", {
+        ...match.params,
+        commentObj: {
+          comment: newComment,
+          createdAt: new Date().getTime(),
+        },
+      });
+
+      const updatedCommentsData = commentsData.data.concat(
+        commentData.data.data
+      );
+      updateCommentsData({ ...commentsData, data: updatedCommentsData });
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  async function toggleLike(commentObj) {
+    try {
+      console.log(commentObj);
+      const commentData = await Axios.post(`/comments/like/${commentObj._id}`, {
+        ...match.params,
+        hasLiked: commentObj.hasLiked,
+      });
+      const updatedCommentsData = commentsData.data.slice();
+      const index = updatedCommentsData.findIndex(
+        (commentObject) => commentObject._id === commentObj._id
+      );
+      console.log(commentData.data.data);
+      updatedCommentsData[index] = commentData.data.data;
+      updateCommentsData({ ...commentsData, data: updatedCommentsData });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   if (commentsData.status === "loading") {
     return <div>Loading...</div>;
   } else if (commentsData.status === "success") {
@@ -137,10 +202,15 @@ function Comments() {
                     : 0
                 )
                 .map((commentData) => (
-                  <CommentItem key={commentData.id} commentData={commentData} />
+                  <CommentItem
+                    key={commentData._id}
+                    commentData={commentData}
+                    toggleLike={() => toggleLike(commentData)}
+                  />
                 ))}
             </div>
           </div>
+          <AddComment addComment={addComment} />
         </Layout.Body>
       </Layout>
     );

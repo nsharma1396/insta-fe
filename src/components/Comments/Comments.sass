@@ -17,7 +17,8 @@ nav
 
   width: 80%;
   margin: 0 auto;
-  
+  margin-bottom: 70px;
+
   .post-caption
     display: flex;
     position: sticky;
@@ -32,6 +33,7 @@ nav
       height: 64px;
       border-radius: 50%;
       overflow: hidden;
+      background: $grey;
 
       img
         width: 100%;
@@ -56,6 +58,7 @@ nav
         height: 64px;
         border-radius: 50%;
         overflow: hidden;
+        background: $grey;
 
         img
           width: 100%;
@@ -83,3 +86,45 @@ nav
         flex: 1;
         display: flex;
         justify-content: center;
+
+        &.liked
+          color: red;
+
+.add-comment
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  display: flex;
+  z-index: 10;
+  padding: 1rem 0.5rem;
+  border-top: 1px solid $grey;
+
+  .icon
+    width: 10%;
+    display: flex;
+    justify-content: center;
+
+  input
+    width: 80%;
+    border: none;
+    outline: none;
+
+  .add-comment-btn
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    button
+      border: none;
+      outline: none;
+      background: none;
+      color: $blue;
+      font-size: 1.1rem;
+      cursor: pointer;
+    
+      &.submit-success
+        color: green;
+      
+      &.submit-error
+        color: red;
