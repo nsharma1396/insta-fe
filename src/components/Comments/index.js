@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Axios from "axios";
 import { useRouteMatch, Link } from "react-router-dom";
 import Layout from "../../common/Layout";
@@ -15,6 +15,9 @@ function Comments() {
     data: undefined,
     post: undefined,
   });
+  const commentsContainer = useRef();
+  const isScrollRequired = useRef(false);
+
   useEffect(() => {
     async function getCommentsData(userId, postId) {
       try {
@@ -56,12 +59,25 @@ function Comments() {
       const updatedCommentsData = commentsData.data.concat(
         commentData.data.data
       );
+      isScrollRequired.current = true;
       updateCommentsData({ ...commentsData, data: updatedCommentsData });
       return true;
     } catch (err) {
       return false;
     }
   }
+
+  useEffect(() => {
+    if (isScrollRequired.current) {
+      isScrollRequired.current = false;
+      try {
+        // try to scroll to the new message element
+        commentsContainer.current.children[commentsContainer.current.children.length - 1].scrollIntoView();
+      } catch (err) {
+        // ignore the error
+      }
+    }
+  }, [commentsData.data]);
 
   async function toggleLike(commentObj) {
     try {
@@ -112,7 +128,7 @@ function Comments() {
                 {post.caption}
               </div>
             </div>
-            <div className="comments">
+            <div ref={commentsContainer} className="comments">
               {comments
                 .sort((a, b) =>
                   a.createdAt > b.createdAt
