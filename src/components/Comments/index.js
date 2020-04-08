@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useRouteMatch, Link } from "react-router-dom";
 import Layout from "../../common/Layout";
-import "./Comments.sass";
 import { AddComment } from "./AddComment";
 import { CommentItem } from "./CommentItem";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaInstagram } from "react-icons/fa";
+import "./Comments.sass";
+import LoadError from "../../common/LoadError";
 
 function Comments() {
   const match = useRouteMatch();
@@ -64,7 +65,6 @@ function Comments() {
 
   async function toggleLike(commentObj) {
     try {
-      console.log(commentObj);
       const commentData = await Axios.post(`/comments/like/${commentObj._id}`, {
         ...match.params,
         hasLiked: commentObj.hasLiked,
@@ -73,7 +73,6 @@ function Comments() {
       const index = updatedCommentsData.findIndex(
         (commentObject) => commentObject._id === commentObj._id
       );
-      console.log(commentData.data.data);
       updatedCommentsData[index] = commentData.data.data;
       updateCommentsData({ ...commentsData, data: updatedCommentsData });
     } catch (err) {
@@ -82,7 +81,11 @@ function Comments() {
   }
 
   if (commentsData.status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader">
+        <FaInstagram size="2.5em" />
+      </div>
+    );
   } else if (commentsData.status === "success") {
     const comments = commentsData.data;
     const post = commentsData.post;
@@ -132,7 +135,7 @@ function Comments() {
       </Layout>
     );
   } else {
-    return <h1>There was an error in loading the comments...</h1>;
+    return <LoadError />;
   }
 }
 

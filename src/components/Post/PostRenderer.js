@@ -7,9 +7,11 @@ import {
   FaRegComment,
   FaRegBookmark,
   FaHeart,
+  FaInstagram,
 } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { IoIosOptions } from "react-icons/io";
+import LoadError from "../../common/LoadError";
 
 export function PostRenderer({ postId }) {
   const match = useRouteMatch();
@@ -53,7 +55,11 @@ export function PostRenderer({ postId }) {
   }
 
   if (postData.status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader">
+        <FaInstagram size="2.5em" />
+      </div>
+    );
   } else if (postData.status === "success") {
     const post = postData.data;
     return (
@@ -127,6 +133,6 @@ export function PostRenderer({ postId }) {
       </Layout>
     );
   } else {
-    return <h1>There was an error in loading the post...</h1>;
+    return <LoadError />;
   }
 }

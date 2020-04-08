@@ -4,8 +4,9 @@ import Axios from "axios";
 import Layout from "../../common/Layout";
 import ProfileDetails from "./ProfileDetails";
 import ProfilePosts from "./ProfilePosts";
-import "./Profile.sass";
 import { FaInstagram } from "react-icons/fa";
+import "./Profile.sass";
+import LoadError from "../../common/LoadError";
 
 function Post() {
   const match = useRouteMatch();
@@ -34,7 +35,11 @@ function Post() {
   }, [match.params.userId]);
 
   if (profileData.status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader">
+        <FaInstagram size="2.5em" />
+      </div>
+    );
   } else if (profileData.status === "success") {
     const profile = profileData.data;
     return (
@@ -62,7 +67,7 @@ function Post() {
       </Layout>
     );
   } else {
-    return <div>Error in loading user...</div>;
+    return <LoadError />;
   }
 }
 

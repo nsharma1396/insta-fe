@@ -1,4 +1,5 @@
 import React from "react";
+import noTags from "../../assets/no_tags.svg";
 
 function TaggedPosts({ profile }) {
   return (
@@ -7,10 +8,12 @@ function TaggedPosts({ profile }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
         height: "50vh",
       }}
     >
-      {profile.name} was not tagged in any post.
+      <img src={noTags} width="35%" height="35%" alt="no tags" />
+      <p>{profile.name} was not tagged in any post.</p>
     </div>
   );
 }
